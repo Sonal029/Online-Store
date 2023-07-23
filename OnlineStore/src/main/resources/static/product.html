@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Store Management - Product List</title>
+    <!-- Add the CSS link for the style.css file here (if you have not done so in index.html) -->
+</head>
+<body>
+    <style>
+
+        /* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#productList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#productList li {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+#productList li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Additional styling (optional) */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+    </style>
+    <h1>Product List</h1>
+    <ul id="productList">
+        <!-- The product list will be dynamically populated here -->
+    </ul>
+
+    <!-- Add the JavaScript link for the script.js file here (if you have not done so in index.html) -->
+    <script>
+        // script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... Other code ...
+
+    // Fetch and display the product list
+    fetchProductList();
+});
+
+async function fetchProductList() {
+    try {
+        const response = await fetch('/api/products');
+        if (response.ok) {
+            const productList = await response.json();
+            displayProductList(productList);
+        } else {
+            alert('Failed to fetch product list.');
+        }
+    } catch (error) {
+        console.error('Error fetching product list:', error);
+        alert('An error occurred while fetching the product list. Please try again later.');
+    }
+}
+
+function displayProductList(productList) {
+    const productListElement = document.getElementById('productList');
+
+    // Clear the current list to avoid duplicates
+    productListElement.innerHTML = '';
+
+    // Create and add list items for each product
+    productList.forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${product.name} - ${product.price.toFixed(2)} ${product.category}`;
+        productListElement.appendChild(listItem);
+    });
+}
+
+    </script>
+</body>
+</html>
